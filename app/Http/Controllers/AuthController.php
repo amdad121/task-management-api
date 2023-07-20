@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -14,11 +16,19 @@ use Illuminate\Validation\ValidationException;
 class AuthController extends Controller
 {
     /**
+     * get all Users
+     */
+    public function users(Request $request)
+    {
+        return new UserCollection(User::all());
+    }
+
+    /**
      * get logged User
      */
     public function user(Request $request)
     {
-        $request->user();
+        return new UserResource($request->user());
     }
 
     /**
