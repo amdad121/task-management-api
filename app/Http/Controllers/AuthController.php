@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
-use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +19,7 @@ class AuthController extends Controller
      */
     public function users(Request $request)
     {
-        return new UserCollection(User::all());
+        return UserResource::collection(User::withCount('tasks')->get());
     }
 
     /**
@@ -28,7 +27,7 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return new UserResource($request->user());
+        return new UserResource($request->user()->loadCount('tasks'));
     }
 
     /**

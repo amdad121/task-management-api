@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
-use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
@@ -16,7 +15,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return new TaskCollection(Task::all());
+        return TaskResource::collection(Task::with('user')->get());
     }
 
     /**
